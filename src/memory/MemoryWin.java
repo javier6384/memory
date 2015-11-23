@@ -111,10 +111,17 @@ public class MemoryWin extends javax.swing.JFrame {
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
         Random aleatorio = new Random();
+        int posicion = 0;
         
-//        do {
-//            
-//        } while();
+        while(posicion <= 9){
+            int valor = aleatorio.nextInt(5);
+            String valorText = String.valueOf(valor);
+            String concatena = valorText.concat(valorText);
+            jTextSecuencia.setText(concatena);
+            posicion ++;
+        }
+        
+         
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     /**
