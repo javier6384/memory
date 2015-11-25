@@ -123,14 +123,36 @@ public class MemoryWin extends javax.swing.JFrame {
         
         while(posicion <= 9){
             int valor = aleatorio.nextInt(5);
+
             String valorText = String.valueOf(valor);
             caracter = valorText;
+            switch (caracter){
+                case "0":
+                    caracter = "#";
+                    break;
+                case "1":
+                    caracter = "@";
+                    break;
+                case "2":
+                    caracter = "%";
+                    break;
+                case "3":
+                    caracter = "$";
+                    break;
+                case "4":
+                    caracter = "&";
+                    break;
+            }
+            
             secuencia = secuencia.concat(caracter);
             posicion ++;
             System.out.println(valorText);           
         }
 
         jTextSecuencia.setText(secuencia); 
+        
+
+        
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     /**
