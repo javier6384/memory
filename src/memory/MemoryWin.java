@@ -31,8 +31,9 @@ public class MemoryWin extends javax.swing.JFrame {
     
     String caracter;
     String secuencia = "";
-
-     
+    int posicion;
+    int orden;
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -118,10 +119,10 @@ public class MemoryWin extends javax.swing.JFrame {
         
         secuencia = "";
         
-        Random aleatorio = new Random();
-        int posicion = 0;       
+        Random aleatorio = new Random();              
         
-        while(posicion <= 9){
+        
+        for(posicion = 0; posicion <= 9; posicion ++){
             int valor = aleatorio.nextInt(5);
 
             String valorText = String.valueOf(valor);
@@ -145,8 +146,24 @@ public class MemoryWin extends javax.swing.JFrame {
             }
             
             secuencia = secuencia.concat(caracter);
-            posicion ++;
-            System.out.println(valorText);           
+            
+            System.out.println(secuencia.charAt(posicion)); 
+
+            char caracterActual = secuencia.charAt(posicion);            
+            
+            
+            int repeticion = 0;
+            
+            for (orden = posicion; orden == 0; orden --) {
+                char caracterComparado = secuencia.charAt(orden);
+                if (caracterActual == caracterComparado) {
+                    repeticion += 1;
+                }
+                System.out.println(repeticion);
+            }
+            
+            
+            
         }
 
         jTextSecuencia.setText(secuencia); 
