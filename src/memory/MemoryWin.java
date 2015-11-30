@@ -147,25 +147,29 @@ public class MemoryWin extends javax.swing.JFrame {
             
             secuencia = secuencia.concat(caracter);
             
-            System.out.println(secuencia.charAt(posicion)); 
-
-            char caracterActual = secuencia.charAt(posicion);            
-            
-            
-            int repeticion = 0;
-            
-            for (orden = posicion; orden == 0; orden --) {
+//            System.out.println(secuencia.charAt(posicion)); 
+//            
+//            int repeticion = 0;
+//            
+            for (orden = secuencia.length()-2; orden == 0; orden --) {
+                char caracterActual = secuencia.charAt(posicion);
                 char caracterComparado = secuencia.charAt(orden);
-                if (caracterActual == caracterComparado) {
-                    repeticion += 1;
+//                if (caracterActual == caracterComparado) {
+//                    repeticion += 1;
+                
                 }
-                System.out.println(repeticion);
-            }
-            
+            System.out.println(orden);
+//                if (repeticion == 2){
+//                    secuencia = secuencia.substring(0,secuencia.length()- 2);
+//                    posicion --;
+//                }
+//                System.out.println(repeticion);
+//            }
+//            repeticion = 0;
             
             
         }
-
+        
         jTextSecuencia.setText(secuencia); 
         
 
