@@ -154,19 +154,20 @@ public class MemoryWin extends javax.swing.JFrame {
 
             for (orden = posicion - 1; orden >= 0; orden --) {
                 caracterComparado = secuencia.charAt(orden);
-                caracterActual = secuencia.charAt(posicion);
+                caracterActual = caracter.charAt(0);
                 
                 if (caracterActual == caracterComparado){
                     repeticion += 1;
-                } else {
-                    if (repeticion == 2){
-                        secuencia = secuencia.substring(0, orden);
-                        repeticion = 0;
-                        posicion --;
-                    }
                 }
-                System.out.println(caracterComparado);
-                System.out.println(repeticion);
+                
+//                if (repeticion == 2){
+//                    secuencia = secuencia.substring(0, posicion -1);
+//                    repeticion = 0;
+//                    posicion --;
+//                }
+                
+                System.out.println(caracterActual);
+//                System.out.println(repeticion);
             }
 
             
