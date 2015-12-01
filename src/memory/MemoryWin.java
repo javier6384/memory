@@ -34,9 +34,9 @@ public class MemoryWin extends javax.swing.JFrame {
     int posicion;
     int orden = posicion;
     int repeticion = 0;
-    char caracterActual;
+    
     char caracterComparado;
-
+    char caracterActual;
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -152,16 +152,26 @@ public class MemoryWin extends javax.swing.JFrame {
             secuencia = secuencia.concat(caracter);
             
 
-            caracterComparado = secuencia.charAt(orden);
-            caracterActual = secuencia.charAt(posicion);
+            for (orden = posicion - 1; orden >= 0; orden --) {
+                caracterComparado = secuencia.charAt(orden);
+                caracterActual = secuencia.charAt(posicion);
+                
+                if (caracterActual == caracterComparado){
+                    repeticion += 1;
+                } else {
+                    if (repeticion == 2){
+                        secuencia = secuencia.substring(0, orden);
+                        repeticion = 0;
+                        posicion --;
+                    }
+                }
+                System.out.println(caracterComparado);
+                System.out.println(repeticion);
+            }
+
             
-            System.out.println(caracterActual);
-            System.out.println(caracterComparado);
-//            int repeticion = 0;
-//            
-//            for (orden = posicion - 1; orden == 0; orden --) {
 //                char caracterActual = secuencia.charAt(posicion);
-//                char caracterComparado = secuencia.charAt(orden);
+//                
 //            
 ////            System.out.println(secuencia.charAt(posicion)); 
 
