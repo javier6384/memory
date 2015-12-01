@@ -32,7 +32,11 @@ public class MemoryWin extends javax.swing.JFrame {
     String caracter;
     String secuencia = "";
     int posicion;
-    int orden;
+    int orden = posicion;
+    int repeticion = 0;
+    char caracterActual;
+    char caracterComparado;
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -147,27 +151,36 @@ public class MemoryWin extends javax.swing.JFrame {
             
             secuencia = secuencia.concat(caracter);
             
-//            System.out.println(secuencia.charAt(posicion)); 
-//            
+
+            caracterComparado = secuencia.charAt(orden);
+            caracterActual = secuencia.charAt(posicion);
+            
+            System.out.println(caracterActual);
+            System.out.println(caracterComparado);
 //            int repeticion = 0;
 //            
-            for (orden = secuencia.length()-2; orden == 0; orden --) {
-                char caracterActual = secuencia.charAt(posicion);
-                char caracterComparado = secuencia.charAt(orden);
+//            for (orden = posicion - 1; orden == 0; orden --) {
+//                char caracterActual = secuencia.charAt(posicion);
+//                char caracterComparado = secuencia.charAt(orden);
+//            
+////            System.out.println(secuencia.charAt(posicion)); 
+
+////            for (orden = secuencia.length()-2; orden == 0; orden --) {
+////                char caracterActual = secuencia.charAt(posicion);
+////                char caracterComparado = secuencia.charAt(orden);
 //                if (caracterActual == caracterComparado) {
 //                    repeticion += 1;
-                
-                }
-            System.out.println(orden);
+//                
+//                }
+//            System.out.println(orden);
 //                if (repeticion == 2){
 //                    secuencia = secuencia.substring(0,secuencia.length()- 2);
 //                    posicion --;
 //                }
-//                System.out.println(repeticion);
+////                System.out.println(repeticion);
 //            }
 //            repeticion = 0;
-            
-            
+
         }
         
         jTextSecuencia.setText(secuencia); 
