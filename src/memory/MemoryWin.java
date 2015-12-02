@@ -160,13 +160,13 @@ public class MemoryWin extends javax.swing.JFrame {
                     repeticion += 1;
                 }
                 
-//                if (repeticion == 2){
-//                    secuencia = secuencia.substring(0, posicion -1);
-//                    repeticion = 0;
-//                    posicion --;
-//                }
+                if (repeticion == 2){
+                    secuencia = secuencia.substring(0, posicion);
+                    repeticion = 0;
+                    posicion --;
+                }
                 
-                System.out.println(caracterActual);
+                System.out.println(caracterComparado);
 //                System.out.println(repeticion);
             }
 
