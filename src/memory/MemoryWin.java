@@ -6,6 +6,7 @@
 package memory;
 
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +22,7 @@ public class MemoryWin extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(this);
         jTextSecuencia.setEditable(false);
+        jButtonMostrar.setEnabled(false);
     }
 
     /**
@@ -31,12 +33,17 @@ public class MemoryWin extends javax.swing.JFrame {
     
     String caracter;
     String secuencia = "";
+    String secuenciaMostrada = "**********";
     int posicion;
     int orden = posicion;
     int repeticion = 0;
     
     char caracterComparado;
     char caracterActual;
+    
+    char posicion1;
+    char posicion2;
+    int aciertos = 0;
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -49,12 +56,17 @@ public class MemoryWin extends javax.swing.JFrame {
         jTextPos2 = new javax.swing.JTextField();
         jButtonMostrar = new javax.swing.JButton();
         jButtonGenerar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTextSecuencia.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTextSecuencia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextSecuencia.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextSecuencia.setFocusable(false);
 
         jLabelMemory.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabelMemory.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelMemory.setText("Memory");
 
         jLabelEscoge.setText("Escoge las posiciones a mostrar:");
@@ -64,14 +76,23 @@ public class MemoryWin extends javax.swing.JFrame {
         jTextPos2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jButtonMostrar.setText("Mostrar");
+        jButtonMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMostrarActionPerformed(evt);
+            }
+        });
 
         jButtonGenerar.setText("Generar");
-        jButtonGenerar.setActionCommand("Generar");
         jButtonGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGenerarActionPerformed(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 7)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,11 +102,6 @@ public class MemoryWin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextSecuencia)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelMemory)
-                            .addComponent(jLabelEscoge))
-                        .addGap(0, 9, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,7 +109,12 @@ public class MemoryWin extends javax.swing.JFrame {
                                 .addComponent(jTextPos1, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jTextPos2, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jButtonMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButtonGenerar, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(jButtonGenerar, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelEscoge)
+                        .addGap(0, 9, Short.MAX_VALUE))
+                    .addComponent(jLabelMemory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -101,11 +122,13 @@ public class MemoryWin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabelMemory)
-                .addGap(18, 18, 18)
-                .addComponent(jTextSecuencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextSecuencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addComponent(jButtonGenerar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelEscoge)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextPos1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -121,11 +144,11 @@ public class MemoryWin extends javax.swing.JFrame {
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
         
+        jButtonMostrar.setEnabled(true);
         secuencia = "";
         
         Random aleatorio = new Random();              
-        
-        
+               
         for(posicion = 0; posicion <= 9; posicion ++){
             int valor = aleatorio.nextInt(5);
 
@@ -151,7 +174,6 @@ public class MemoryWin extends javax.swing.JFrame {
             
             secuencia = secuencia.concat(caracter);
             
-
             for (orden = posicion - 1; orden >= 0; orden --) {
                 caracterComparado = secuencia.charAt(orden);
                 caracterActual = caracter.charAt(0);
@@ -166,39 +188,42 @@ public class MemoryWin extends javax.swing.JFrame {
                     posicion --;
                 }
                 
-                System.out.println(caracterComparado);
-//                System.out.println(repeticion);
+//                System.out.println(caracterComparado);
             }
-
-            
-//                char caracterActual = secuencia.charAt(posicion);
-//                
-//            
-////            System.out.println(secuencia.charAt(posicion)); 
-
-////            for (orden = secuencia.length()-2; orden == 0; orden --) {
-////                char caracterActual = secuencia.charAt(posicion);
-////                char caracterComparado = secuencia.charAt(orden);
-//                if (caracterActual == caracterComparado) {
-//                    repeticion += 1;
-//                
-//                }
-//            System.out.println(orden);
-//                if (repeticion == 2){
-//                    secuencia = secuencia.substring(0,secuencia.length()- 2);
-//                    posicion --;
-//                }
-////                System.out.println(repeticion);
-//            }
-//            repeticion = 0;
-
+           
         }
         
-        jTextSecuencia.setText(secuencia); 
-        
-
-        
+        System.out.println(secuencia);        
+        jTextSecuencia.setText(secuenciaMostrada); 
+        jButtonGenerar.setEnabled(false);
     }//GEN-LAST:event_jButtonGenerarActionPerformed
+
+    private void jButtonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarActionPerformed
+        try {
+        posicion1 = secuencia.charAt(Integer.valueOf(jTextPos1.getText()) - 1);
+        posicion2 = secuencia.charAt(Integer.valueOf(jTextPos2.getText()) - 1);
+        System.out.println(posicion1);
+        System.out.println(posicion2);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Debe introducir un número entero entre 1 y 10");
+        } catch (IndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(this, "Debe introducir un número entero entre 1 y 10");
+        }
+        
+        if (posicion1 == posicion2){
+            aciertos++;
+//            jTextSecuencia.setText(secuenciaMostrada.replace(secuenciaMostrada.charAt
+//            (Integer.valueOf(jTextPos1.getText()) - 1) ,posicion1));
+        }
+        if (aciertos == 5) {
+            aciertos = 0;
+            jTextSecuencia.setText("You Win!!!");
+            jButtonGenerar.setEnabled(true);
+            jButtonMostrar.setEnabled(false);
+            jTextPos1.setText(null);
+            jTextPos2.setText(null);
+        }
+    }//GEN-LAST:event_jButtonMostrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,6 +263,7 @@ public class MemoryWin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonGenerar;
     private javax.swing.JButton jButtonMostrar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelEscoge;
     private javax.swing.JLabel jLabelMemory;
     private javax.swing.JTextField jTextPos1;
