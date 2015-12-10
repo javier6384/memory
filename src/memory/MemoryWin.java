@@ -207,7 +207,7 @@ public class MemoryWin extends javax.swing.JFrame {
             
             secuenciaMostrada = secuenciaMostrada.substring(0,Integer.valueOf(jTextPos1.getText()) - 1) + 
                     secuencia.substring(Integer.valueOf(jTextPos1.getText())- 1,Integer.valueOf(jTextPos1.getText())) +
-                    secuenciaMostrada.substring(Integer.valueOf(jTextPos1.getText()) - 1,Integer.valueOf(jTextPos2.getText())) +
+                    secuenciaMostrada.substring(Integer.valueOf(jTextPos1.getText()) ,Integer.valueOf(jTextPos2.getText()) - 1) +
                     secuencia.substring(Integer.valueOf(jTextPos2.getText())- 1,Integer.valueOf(jTextPos2.getText())) +
                     secuenciaMostrada.substring(Integer.valueOf(jTextPos2.getText()));
             jTextSecuencia.setText(secuenciaMostrada);
