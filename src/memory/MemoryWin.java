@@ -22,8 +22,8 @@ public class MemoryWin extends javax.swing.JFrame {
     
     String caracter;
     String secuencia = "";
-    String secuenciaOculta = "**********";
-    String secuenciaMostrada = secuenciaOculta;
+//    String secuenciaOculta = "**********";
+    String secuenciaMostrada = "**********";
     int posicion;
     int orden = posicion;
     int repeticion = 0;
@@ -134,9 +134,10 @@ public class MemoryWin extends javax.swing.JFrame {
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
         
+        
         jButtonMostrar.setEnabled(true);
         secuencia = "";
-        
+        secuenciaMostrada = "**********";
         Random aleatorio = new Random();              
                
         for(posicion = 0; posicion <= 9; posicion ++){
@@ -189,6 +190,7 @@ public class MemoryWin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     private void jButtonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarActionPerformed
+
         try {
         posicion1 = secuencia.charAt(Integer.valueOf(jTextPos1.getText()) - 1);
         posicion2 = secuencia.charAt(Integer.valueOf(jTextPos2.getText()) - 1);
@@ -203,10 +205,11 @@ public class MemoryWin extends javax.swing.JFrame {
         if (posicion1 == posicion2){
             aciertos++;
             
-            secuenciaMostrada = secuenciaOculta.substring(0,Integer.valueOf(jTextPos1.getText()) - 1) + 
-                    secuencia.substring(Integer.valueOf(jTextPos1.getText())- 1,Integer.valueOf(jTextPos1.getText()));
-//                    secuenciaOculta.substring(Integer.valueOf(jTextPos1.getText()) + 1,Integer.valueOf(jTextPos2.getText())) +
-//                    secuencia.substring(Integer.valueOf(jTextPos2.getText()),Integer.valueOf(jTextPos2.getText())+1);
+            secuenciaMostrada = secuenciaMostrada.substring(0,Integer.valueOf(jTextPos1.getText()) - 1) + 
+                    secuencia.substring(Integer.valueOf(jTextPos1.getText())- 1,Integer.valueOf(jTextPos1.getText())) +
+                    secuenciaMostrada.substring(Integer.valueOf(jTextPos1.getText()) - 1,Integer.valueOf(jTextPos2.getText())) +
+                    secuencia.substring(Integer.valueOf(jTextPos2.getText())- 1,Integer.valueOf(jTextPos2.getText())) +
+                    secuenciaMostrada.substring(Integer.valueOf(jTextPos2.getText()));
             jTextSecuencia.setText(secuenciaMostrada);
         }
         
