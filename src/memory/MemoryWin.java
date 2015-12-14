@@ -21,9 +21,10 @@ public class MemoryWin extends javax.swing.JFrame {
     }
     
     String caracter;
-    String secuencia = "";
-//    String secuenciaOculta = "**********";
+    String secuencia = "";    
     String secuenciaMostrada = "**********";
+    String secuenciaProvisional = secuenciaMostrada;
+    
     int posicion;
     int orden = posicion;
     int repeticion = 0;
@@ -190,12 +191,13 @@ public class MemoryWin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     private void jButtonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarActionPerformed
-
+        secuenciaProvisional = secuenciaMostrada;
+        
         try {
         posicion1 = secuencia.charAt(Integer.valueOf(jTextPos1.getText()) - 1);
         posicion2 = secuencia.charAt(Integer.valueOf(jTextPos2.getText()) - 1);
-        System.out.println(posicion1);
-        System.out.println(posicion2);
+//        System.out.println(posicion1);
+//        System.out.println(posicion2);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Debe introducir un número entero entre 1 y 10");
         } catch (IndexOutOfBoundsException ex) {
@@ -203,25 +205,33 @@ public class MemoryWin extends javax.swing.JFrame {
         }
         
         if (posicion1 == posicion2){
-            aciertos++;
-            
             secuenciaMostrada = secuenciaMostrada.substring(0,Integer.valueOf(jTextPos1.getText()) - 1) + 
                     secuencia.substring(Integer.valueOf(jTextPos1.getText())- 1,Integer.valueOf(jTextPos1.getText())) +
                     secuenciaMostrada.substring(Integer.valueOf(jTextPos1.getText()) ,Integer.valueOf(jTextPos2.getText()) - 1) +
                     secuencia.substring(Integer.valueOf(jTextPos2.getText())- 1,Integer.valueOf(jTextPos2.getText())) +
                     secuenciaMostrada.substring(Integer.valueOf(jTextPos2.getText()));
             jTextSecuencia.setText(secuenciaMostrada);
+        } else {
+            secuenciaProvisional = secuenciaMostrada.substring(0,Integer.valueOf(jTextPos1.getText()) - 1) + 
+                    secuencia.substring(Integer.valueOf(jTextPos1.getText())- 1,Integer.valueOf(jTextPos1.getText())) +
+                    secuenciaMostrada.substring(Integer.valueOf(jTextPos1.getText()) ,Integer.valueOf(jTextPos2.getText()) - 1) +
+                    secuencia.substring(Integer.valueOf(jTextPos2.getText())- 1,Integer.valueOf(jTextPos2.getText())) +
+                    secuenciaMostrada.substring(Integer.valueOf(jTextPos2.getText()));
+            jTextSecuencia.setText(secuenciaProvisional);
         }
         
         
-        if (aciertos == 5) {
-            aciertos = 0;
+        if (secuencia.compareTo(secuenciaMostrada) == secuenciaMostrada.compareTo(secuencia)) {
             jTextSecuencia.setText("You Win!!!");
             jButtonGenerar.setEnabled(true);
             jButtonMostrar.setEnabled(false);
             jTextPos1.setText(null);
             jTextPos2.setText(null);
         }
+        
+        System.out.println(secuencia);
+        System.out.println(secuenciaMostrada);
+        System.out.println(secuenciaProvisional);
     }//GEN-LAST:event_jButtonMostrarActionPerformed
 
     /**
