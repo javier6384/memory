@@ -28,8 +28,8 @@ public class MemoryWin extends javax.swing.JFrame {
     String secuenciaFija = "**********";
     String secuenciaProvisional = secuenciaFija;
     
-    int posicion;
-    int orden = posicion;
+//    int posicion = secuencia.length()-1;
+    int orden;
     int repeticion = 0;
     
     char caracterComparado;
@@ -54,7 +54,7 @@ public class MemoryWin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextSecuencia.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextSecuencia.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTextSecuencia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextSecuencia.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextSecuencia.setFocusable(false);
@@ -116,10 +116,10 @@ public class MemoryWin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabelMemory)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextSecuencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextSecuencia, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addComponent(jButtonGenerar)
                 .addGap(18, 18, 18)
@@ -137,14 +137,14 @@ public class MemoryWin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
-        
-        
+
         jButtonMostrar.setEnabled(true);
         secuencia = "";
         secuenciaFija = "**********";
         Random aleatorio = new Random();              
                
-        for(posicion = 0; posicion <= 9; posicion ++){
+        while(secuencia.length()<10){
+            repeticion = 0;
             int valor = aleatorio.nextInt(5);
 
             String valorText = String.valueOf(valor);
@@ -165,32 +165,30 @@ public class MemoryWin extends javax.swing.JFrame {
                 case "4":
                     caracter = "&";
                     break;
-            }
-            
-            secuencia = secuencia.concat(caracter);
-            
-            for (orden = posicion - 1; orden >= 0; orden --) {
-                caracterComparado = secuencia.charAt(orden);
+            }           
+
+            int posicion = secuencia.length()-1;
+
+            for (orden = posicion; orden >= 0; orden --) {
                 caracterActual = caracter.charAt(0);
+                caracterComparado = secuencia.charAt(orden);
                 
                 if (caracterActual == caracterComparado){
-                    repeticion += 1;
+                    repeticion++;
                 }
-                
-                if (repeticion == 2){
-                    secuencia = secuencia.substring(0, posicion);
-                    repeticion = 0;
-                    posicion --;
-                }
-                
-//                System.out.println(caracterComparado);
+            }    
+
+            if (repeticion != 2){
+                secuencia = secuencia.concat(caracter);
             }
-           
+            
+            System.out.println(secuencia);
         }
         
         System.out.println(secuencia);        
         jTextSecuencia.setText(secuenciaFija); 
-        jButtonGenerar.setEnabled(false);
+        jButtonGenerar.setEnabled(true);
+        
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     private void jButtonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarActionPerformed
