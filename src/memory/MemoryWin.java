@@ -25,19 +25,21 @@ public class MemoryWin extends javax.swing.JFrame {
     
     String caracter;
     String secuencia = "";    
-    String secuenciaFija = "**********";
+    String secuenciaFija = "";
     String secuenciaProvisional = secuenciaFija;
     
-//    int posicion = secuencia.length()-1;
-    int orden;
-    int repeticion = 0;
+    byte orden;
+    byte repeticion = 0;
     
     char caracterComparado;
     char caracterActual;
     
     char posicion1;
     char posicion2;
-    int aciertos = 0;
+    
+    
+    byte parejas = 2;
+    int dificultad;
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -140,12 +142,18 @@ public class MemoryWin extends javax.swing.JFrame {
 
         jButtonMostrar.setEnabled(true);
         secuencia = "";
-        secuenciaFija = "**********";
+        secuenciaFija="";
+        dificultad = parejas*2;
+        
+        do{
+            secuenciaFija=secuenciaFija.concat("*");
+        }while(secuenciaFija.length()<dificultad);
+        
         Random aleatorio = new Random();              
                
-        while(secuencia.length()<10){
+        while(secuencia.length()<dificultad){
             repeticion = 0;
-            int valor = aleatorio.nextInt(5);
+            int valor = aleatorio.nextInt(parejas);
 
             String valorText = String.valueOf(valor);
             caracter = valorText;
@@ -167,9 +175,9 @@ public class MemoryWin extends javax.swing.JFrame {
                     break;
             }           
 
-            int posicion = secuencia.length()-1;
+            int posicion =secuencia.length()-1;
 
-            for (orden = posicion; orden >= 0; orden --) {
+            for (orden = (byte)posicion; orden >= 0; orden --) {
                 caracterActual = caracter.charAt(0);
                 caracterComparado = secuencia.charAt(orden);
                 
@@ -228,6 +236,9 @@ public class MemoryWin extends javax.swing.JFrame {
                 jButtonMostrar.setEnabled(false);
                 jTextPos1.setText(null);
                 jTextPos2.setText(null);
+                if(parejas < 5){
+                    parejas ++;
+                }
             }
 
             System.out.println(secuencia);
