@@ -23,23 +23,27 @@ public class MemoryWin extends javax.swing.JFrame {
     
     private static final Logger LOG = Logger.getLogger(MemoryWin.class.getName());
     
+    //Variables para generar cadena y lo que tiene que mostrar
     String caracter;
     String secuencia = "";    
     String secuenciaFija = "";
     String secuenciaProvisional = secuenciaFija;
     
+    //Variables para realizar la comparación de caracteres
     byte orden;
     byte repeticion = 0;
-    
     char caracterComparado;
     char caracterActual;
+    byte repeticionMax = 2;
     
+    //Posiciones introducidas por el usuario
     char posicion1;
     char posicion2;
     
-    
+    //Definen el nivel al que vamos a jugar
     byte parejas = 2;
     int dificultad;
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -140,21 +144,28 @@ public class MemoryWin extends javax.swing.JFrame {
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
 
+        //Desactiva el botón mostrar
         jButtonMostrar.setEnabled(true);
+        
+        //Reseteo de variables
         secuencia = "";
         secuenciaFija="";
-        dificultad = parejas*2;
         
+        //Cálcula el número de cartas
+        dificultad = parejas * 2;
+        
+        //Concatena * según la dificultad (nº cartas)
         do{
             secuenciaFija=secuenciaFija.concat("*");
         }while(secuenciaFija.length()<dificultad);
         
         Random aleatorio = new Random();              
                
+        //Genera los caracteres
         while(secuencia.length()<dificultad){
             repeticion = 0;
+            
             int valor = aleatorio.nextInt(parejas);
-
             String valorText = String.valueOf(valor);
             caracter = valorText;
             switch (caracter){
@@ -174,9 +185,9 @@ public class MemoryWin extends javax.swing.JFrame {
                     caracter = "&";
                     break;
             }           
-
+            
+            //Realiza la comparación recorriendo la cadena
             int posicion =secuencia.length()-1;
-
             for (orden = (byte)posicion; orden >= 0; orden --) {
                 caracterActual = caracter.charAt(0);
                 caracterComparado = secuencia.charAt(orden);
@@ -185,18 +196,16 @@ public class MemoryWin extends javax.swing.JFrame {
                     repeticion++;
                 }
             }    
-
-            if (repeticion != 2){
+            
+            //En el caso de que ya haya el máximo de repetidos no agrega el caracter
+            if (repeticion != repeticionMax){
                 secuencia = secuencia.concat(caracter);
             }
-            
-            System.out.println(secuencia);
         }
         
-        System.out.println(secuencia);        
+        //Almacena la secuencia secreta y desactiva el botón Generar
         jTextSecuencia.setText(secuenciaFija); 
-        jButtonGenerar.setEnabled(true);
-        
+        jButtonGenerar.setEnabled(true);   
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     private void jButtonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarActionPerformed
@@ -204,9 +213,11 @@ public class MemoryWin extends javax.swing.JFrame {
         secuenciaProvisional = secuenciaFija;
         
         try {
+            //Coge las posiciones introducidas por el jugador
             posicion1 = secuencia.charAt(Integer.valueOf(jTextPos1.getText()) - 1);
             posicion2 = secuencia.charAt(Integer.valueOf(jTextPos2.getText()) - 1);
-
+            
+            //Se hacen las modificaciones a mostrar en pantalla cuando se acierta
             if (posicion1 == posicion2){
                 secuenciaFija = secuenciaFija.substring(0,Integer.valueOf(jTextPos1.getText()) - 1) + 
                         secuencia.substring(Integer.valueOf(jTextPos1.getText())- 1,
@@ -217,6 +228,7 @@ public class MemoryWin extends javax.swing.JFrame {
                                 Integer.valueOf(jTextPos2.getText())) +
                         secuenciaFija.substring(Integer.valueOf(jTextPos2.getText()));
                 jTextSecuencia.setText(secuenciaFija);
+            //Se hacen las modificaciones a mostrar en pantalla de forma provisional cuando se falla
             } else {
                 secuenciaProvisional = secuenciaFija.substring(0,Integer.valueOf(jTextPos1.getText()) - 1) + 
                         secuencia.substring(Integer.valueOf(jTextPos1.getText())- 1,
@@ -229,27 +241,38 @@ public class MemoryWin extends javax.swing.JFrame {
                 jTextSecuencia.setText(secuenciaProvisional);
             }
 
-
+            //Paso de nivel y final de partida
             if (secuencia.compareTo(secuenciaFija) == secuenciaFija.compareTo(secuencia)) {
-                jTextSecuencia.setText("You Win!!!");
-                jButtonGenerar.setEnabled(true);
-                jButtonMostrar.setEnabled(false);
-                jTextPos1.setText(null);
-                jTextPos2.setText(null);
-                if(parejas < 5){
-                    parejas ++;
+                
+                //Pasa el nivel
+                if(parejas <= 4){
+                    jTextSecuencia.setText("Next Level!!!");
+                    jButtonGenerar.setEnabled(true);
+                    jButtonMostrar.setEnabled(false);
+                    jTextPos1.setText(null);
+                    jTextPos2.setText(null);
+                    if(parejas < 5){
+                        parejas ++;
+                    }    
+                //Final de partida
+                } else {
+                    jTextSecuencia.setText("You Win!!!");
+                    jButtonGenerar.setEnabled(true);
+                    jButtonMostrar.setEnabled(false);
+                    jTextPos1.setText(null);
+                    jTextPos2.setText(null);
+                    parejas = 2;
                 }
             }
-
-            System.out.println(secuencia);
-            System.out.println(secuenciaFija);
-            System.out.println(secuenciaProvisional);
-
+        
+        //Captura los errores y muestra ventana. Estan adaptados según el nivel
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Debe introducir un número entero entre 1 y 10");
+            JOptionPane.showMessageDialog(this, "Debe introducir un número entero entre 1 y " 
+                    + String.valueOf(dificultad));
             LOG.info("El usuario no ha introducido algún número");
         } catch (IndexOutOfBoundsException ex) {
-            JOptionPane.showMessageDialog(this, "Debe introducir un número entero entre 1 y 10");
+            JOptionPane.showMessageDialog(this, "Debe introducir un número entero entre 1 y " 
+                    + String.valueOf(dificultad) + ". \nLos números deben estar colocados en orden.");
             LOG.info("El usuario ha introducido un número fuera de rango");
         }
     }//GEN-LAST:event_jButtonMostrarActionPerformed
