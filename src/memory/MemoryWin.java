@@ -19,6 +19,7 @@ public class MemoryWin extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
         jTextSecuencia.setEditable(false);
         jButtonMostrar.setEnabled(false);
+        getRootPane().setDefaultButton(jButtonMostrar);
     }
     
     private static final Logger LOG = Logger.getLogger(MemoryWin.class.getName());
@@ -72,8 +73,11 @@ public class MemoryWin extends javax.swing.JFrame {
         jLabelEscoge.setText("Escoge las posiciones a mostrar:");
 
         jTextPos1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextPos1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextPos1.setNextFocusableComponent(jTextPos2);
 
         jTextPos2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextPos2.setNextFocusableComponent(jTextPos1);
 
         jButtonMostrar.setText("Mostrar");
         jButtonMostrar.addActionListener(new java.awt.event.ActionListener() {
