@@ -25,27 +25,13 @@ public class MemoryWin extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(MemoryWin.class.getName());
     
     //Variables para generar cadena y lo que tiene que mostrar
-    String caracter;
     String secuencia = "";    
     String secuenciaFija = "";
-    String secuenciaProvisional = secuenciaFija;
-    
-    //Variables para realizar la comparación de caracteres
-    byte orden;
-    byte repeticion = 0;
-    char caracterComparado;
-    char caracterActual;
-    byte repeticionMax = 2;
-    
-    //Posiciones introducidas por el usuario
-    char posicion1;
-    char posicion2;
-    
+
     //Definen el nivel al que vamos a jugar
     byte parejas = 2;
     int dificultad;
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -147,7 +133,8 @@ public class MemoryWin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
-
+        LOG.fine("El usuario a pulsado el botón generar");
+        
         //Desactiva el botón mostrar
         jButtonMostrar.setEnabled(true);
         
@@ -167,11 +154,11 @@ public class MemoryWin extends javax.swing.JFrame {
                
         //Genera los caracteres
         while(secuencia.length()<dificultad){
-            repeticion = 0;
+            byte repeticion = 0;
             
             int valor = aleatorio.nextInt(parejas);
             String valorText = String.valueOf(valor);
-            caracter = valorText;
+            String caracter = valorText;
             switch (caracter){
                 case "0":
                     caracter = "#";
@@ -192,29 +179,32 @@ public class MemoryWin extends javax.swing.JFrame {
             
             //Realiza la comparación recorriendo la cadena
             int posicion =secuencia.length()-1;
-            for (orden = (byte)posicion; orden >= 0; orden --) {
-                caracterActual = caracter.charAt(0);
-                caracterComparado = secuencia.charAt(orden);
+            for (byte orden = (byte)posicion; orden >= 0; orden --) {
                 
-                if (caracterActual == caracterComparado){
+                if (caracter.charAt(0) == secuencia.charAt(orden)){
                     repeticion++;
                 }
             }    
             
             //En el caso de que ya haya el máximo de repetidos no agrega el caracter
+            byte repeticionMax = 2;
             if (repeticion != repeticionMax){
                 secuencia = secuencia.concat(caracter);
             }
         }
-        
+        System.out.println(secuencia);
         //Almacena la secuencia secreta y desactiva el botón Generar
         jTextSecuencia.setText(secuenciaFija); 
         jButtonGenerar.setEnabled(true);   
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     private void jButtonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarActionPerformed
+        LOG.fine("El usuario a pulsado el botón Mostrar");
         
-        secuenciaProvisional = secuenciaFija;
+        String secuenciaProvisional = secuenciaFija;
+            //Posiciones introducidas por el usuario
+        char posicion1;
+        char posicion2;
         
         try {
             //Coge las posiciones introducidas por el jugador
@@ -277,7 +267,10 @@ public class MemoryWin extends javax.swing.JFrame {
         } catch (IndexOutOfBoundsException ex) {
             JOptionPane.showMessageDialog(this, "Debe introducir un número entero entre 1 y " 
                     + String.valueOf(dificultad) + ". \nLos números deben estar colocados en orden.");
-            LOG.info("El usuario ha introducido un número fuera de rango");
+            LOG.info("El usuario ha introducido un número fuera de rango o desordenados."
+                    + "\nEl usuario ha introducido los valores:"
+                    + "\nPosición 1: " + jTextPos1.getText() 
+                    + "\nPosición 2: " + jTextPos2.getText());
         }
     }//GEN-LAST:event_jButtonMostrarActionPerformed
 
