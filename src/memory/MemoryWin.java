@@ -8,22 +8,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
  * @author Javier Fernández
  */
 public class MemoryWin extends javax.swing.JFrame {
-
-    public MemoryWin() {
-        initComponents();
-        this.setResizable(false);
-        this.setLocationRelativeTo(this);
-        jTextSecuencia.setEditable(false);
-        jButtonMostrar.setEnabled(false);
-        getRootPane().setDefaultButton(jButtonMostrar);
-    }
     
     private static final Logger LOG = Logger.getLogger(MemoryWin.class.getName());
-    
+       
     //Variables para generar cadena y lo que tiene que mostrar
     String secuencia = "";    
     String secuenciaFija = "";
@@ -31,6 +21,16 @@ public class MemoryWin extends javax.swing.JFrame {
     //Definen el nivel al que vamos a jugar
     byte parejas = 2;
     int dificultad;
+    
+    public MemoryWin() {
+        initComponents();
+        this.setResizable(false);
+        this.setLocationRelativeTo(this);
+        jTextSecuencia.setEditable(false);
+        jButtonMostrar.setEnabled(false);
+        getRootPane().setDefaultButton(jButtonMostrar);
+        LOG.fine("El usuario a iniciado el juego");
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -157,31 +157,30 @@ public class MemoryWin extends javax.swing.JFrame {
             byte repeticion = 0;
             
             int valor = aleatorio.nextInt(parejas);
-            String valorText = String.valueOf(valor);
-            String caracter = valorText;
+            char caracter = (char)valor;
             switch (caracter){
-                case "0":
-                    caracter = "#";
+                case 0:
+                    caracter = '#';
                     break;
-                case "1":
-                    caracter = "@";
+                case 1:
+                    caracter = '@';
                     break;
-                case "2":
-                    caracter = "%";
+                case 2:
+                    caracter = '%';
                     break;
-                case "3":
-                    caracter = "$";
+                case 3:
+                    caracter = '$';
                     break;
-                case "4":
-                    caracter = "&";
+                case 4:
+                    caracter = '&';
                     break;
             }           
-            
+
             //Realiza la comparación recorriendo la cadena
             int posicion =secuencia.length()-1;
             for (byte orden = (byte)posicion; orden >= 0; orden --) {
                 
-                if (caracter.charAt(0) == secuencia.charAt(orden)){
+                if (caracter == secuencia.charAt(orden)){
                     repeticion++;
                 }
             }    
@@ -189,10 +188,10 @@ public class MemoryWin extends javax.swing.JFrame {
             //En el caso de que ya haya el máximo de repetidos no agrega el caracter
             byte repeticionMax = 2;
             if (repeticion != repeticionMax){
-                secuencia = secuencia.concat(caracter);
+                secuencia = secuencia.concat(String.valueOf(caracter));
             }
         }
-        System.out.println(secuencia);
+
         //Almacena la secuencia secreta y desactiva el botón Generar
         jTextSecuencia.setText(secuenciaFija); 
         jButtonGenerar.setEnabled(true);   
@@ -202,7 +201,8 @@ public class MemoryWin extends javax.swing.JFrame {
         LOG.fine("El usuario a pulsado el botón Mostrar");
         
         String secuenciaProvisional = secuenciaFija;
-            //Posiciones introducidas por el usuario
+        
+        //Posiciones introducidas por el usuario
         char posicion1;
         char posicion2;
         
@@ -273,7 +273,7 @@ public class MemoryWin extends javax.swing.JFrame {
                     + "\nPosición 2: " + jTextPos2.getText());
         }
     }//GEN-LAST:event_jButtonMostrarActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
