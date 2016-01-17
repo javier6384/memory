@@ -3,6 +3,8 @@
  */
 package memory;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.Random;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -11,9 +13,9 @@ import javax.swing.JOptionPane;
  * @author Javier Fernández
  */
 public class MemoryWin extends javax.swing.JFrame {
-    
+
     private static final Logger LOG = Logger.getLogger(MemoryWin.class.getName());
-       
+    
     //Variables para generar cadena y lo que tiene que mostrar
     String secuencia = "";    
     String secuenciaFija = "";
@@ -28,8 +30,20 @@ public class MemoryWin extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
         jTextSecuencia.setEditable(false);
         jButtonMostrar.setEnabled(false);
-        getRootPane().setDefaultButton(jButtonMostrar);
+        getRootPane().setDefaultButton(jButtonGenerar);
         LOG.fine("El usuario a iniciado el juego");
+        //Auto-selecionamos el contenido al selecciónar el campo
+        jTextPos1.addFocusListener(new FocusAdapter(){
+            public void focusGained (FocusEvent e){
+            jTextPos1.selectAll();
+            }
+        });
+        //Auto-selecionamos el contenido al selecciónar el campo
+        jTextPos2.addFocusListener(new FocusAdapter(){
+            public void focusGained (FocusEvent e){
+            jTextPos2.selectAll();
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -47,7 +61,7 @@ public class MemoryWin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextSecuencia.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextSecuencia.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         jTextSecuencia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextSecuencia.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextSecuencia.setFocusable(false);
@@ -79,10 +93,9 @@ public class MemoryWin extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 7)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,8 +125,8 @@ public class MemoryWin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabelMemory)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextSecuencia, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
@@ -135,8 +148,17 @@ public class MemoryWin extends javax.swing.JFrame {
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
         LOG.fine("El usuario a pulsado el botón generar");
         
+        //Cambia el foco
+        jButtonGenerar.nextFocus();
+        
+        //Cuando pulsamos generar activamos la ejecución de Mostrar mediante enter
+        getRootPane().setDefaultButton(jButtonMostrar);
+        
         //Desactiva el botón mostrar
         jButtonMostrar.setEnabled(true);
+        
+        
+        String posiciones = "";    
         
         //Reseteo de variables
         secuencia = "";
@@ -144,6 +166,12 @@ public class MemoryWin extends javax.swing.JFrame {
         
         //Cálcula el número de cartas
         dificultad = parejas * 2;
+        
+        //Modifica las posiciones según el nivel
+        for(byte i=1; i<=dificultad; i++){
+            posiciones=posiciones.concat("| "+ String.valueOf(i)+ " ");
+        }
+        posiciones += "|";
         
         //Concatena * según la dificultad (nº cartas)
         do{
@@ -193,14 +221,20 @@ public class MemoryWin extends javax.swing.JFrame {
         }
 
         //Almacena la secuencia secreta y desactiva el botón Generar
+        jLabel1.setText(posiciones);
         jTextSecuencia.setText(secuenciaFija); 
-        jButtonGenerar.setEnabled(true);   
+        jButtonGenerar.setEnabled(true);  
+        
+        System.out.println(secuencia);
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     private void jButtonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarActionPerformed
         LOG.fine("El usuario a pulsado el botón Mostrar");
         
         String secuenciaProvisional = secuenciaFija;
+        
+        //Cambia el foco
+        jTextPos2.nextFocus();
         
         //Posiciones introducidas por el usuario
         char posicion1;
@@ -236,8 +270,7 @@ public class MemoryWin extends javax.swing.JFrame {
             }
 
             //Paso de nivel y final de partida
-            if (secuencia.compareTo(secuenciaFija) == secuenciaFija.compareTo(secuencia)) {
-                
+            if (secuencia.equals(secuenciaFija)) {    
                 //Pasa el nivel
                 if(parejas <= 4){
                     jTextSecuencia.setText("Next Level!!!");
@@ -248,6 +281,7 @@ public class MemoryWin extends javax.swing.JFrame {
                     if(parejas < 5){
                         parejas ++;
                     }    
+                    getRootPane().setDefaultButton(jButtonGenerar);
                 //Final de partida
                 } else {
                     jTextSecuencia.setText("You Win!!!");
@@ -256,6 +290,7 @@ public class MemoryWin extends javax.swing.JFrame {
                     jTextPos1.setText(null);
                     jTextPos2.setText(null);
                     parejas = 2;
+                    getRootPane().setDefaultButton(jButtonGenerar);
                 }
             }
         
@@ -273,7 +308,7 @@ public class MemoryWin extends javax.swing.JFrame {
                     + "\nPosición 2: " + jTextPos2.getText());
         }
     }//GEN-LAST:event_jButtonMostrarActionPerformed
-    
+ 
     /**
      * @param args the command line arguments
      */
