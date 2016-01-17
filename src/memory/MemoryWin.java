@@ -235,6 +235,7 @@ public class MemoryWin extends javax.swing.JFrame {
         
         //Cambia el foco
         jTextPos2.nextFocus();
+        jTextPos1.selectAll();
         
         //Posiciones introducidas por el usuario
         char posicion1;
